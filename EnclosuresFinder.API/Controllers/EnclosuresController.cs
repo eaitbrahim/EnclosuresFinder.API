@@ -67,6 +67,45 @@ namespace EnclosuresFinder.API.Controllers
             }
         }
 
+        [HttpGet("Search")]
+        public IActionResult Search(string partNumber)
+        {
+            var pagination = Request.Headers["Pagination"];
+
+            if (!string.IsNullOrEmpty(pagination))
+            {
+                string[] vals = pagination.ToString().Split(',');
+                int.TryParse(vals[0], out page);
+                int.TryParse(vals[1], out pageSize);
+            }
+
+            ISpecification<Enclosure> partNumExpSpec = new ExpressionSpecification<Enclosure>(e => 1 == 1);
+            if (!string.IsNullOrEmpty(partNumber))
+            {
+                partNumExpSpec = new ExpressionSpecification<Enclosure>(e => e.PartNumber.ToLower().Contains(partNumber.ToLower().Trim()));
+            }
+            int currentPage = page;
+            int currentPageSize = pageSize;
+
+            var totalEnclosures = _enclosureRepository.Count(partNumExpSpec);
+            var totalPages = (int)Math.Ceiling((double)totalEnclosures / pageSize);
+
+            if (currentPage > totalPages) currentPage = 1;
+
+            IEnumerable<Enclosure> _enclosures = _enclosureRepository.Find(partNumExpSpec)
+                            .OrderByDescending(s => s.Id)
+                            .Skip((currentPage - 1) * currentPageSize)
+                            .Take(currentPageSize)
+                            .ToList();
+
+
+            Response.AddPagination(page, pageSize, totalEnclosures, totalPages);
+
+            IEnumerable<EnclosureViewModel> _enclosuresVM = Mapper.Map<IEnumerable<Enclosure>, IEnumerable<EnclosureViewModel>>(_enclosures);
+
+            return new OkObjectResult(_enclosuresVM);
+        }
+
         [HttpPost("Filter")]
         public IActionResult Filter([FromBody]FilterViewModel filterObj)
         {
@@ -78,13 +117,7 @@ namespace EnclosuresFinder.API.Controllers
                 int.TryParse(vals[0], out page);
                 int.TryParse(vals[1], out pageSize);
             }
-
-            int currentPage = page;
-            int currentPageSize = pageSize;
-            var totalEnclosures = _enclosureRepository.Count();
-            var totalPages = (int)Math.Ceiling((double)totalEnclosures / pageSize);
             
-            ISpecification<Enclosure> partNumExpSpec        = new ExpressionSpecification<Enclosure>(e => 1 == 1);
             ISpecification<Enclosure> minLengthInExpSpec    = new ExpressionSpecification<Enclosure>(e => 1 == 1);
             ISpecification<Enclosure> maxLengthInExpSpec    = new ExpressionSpecification<Enclosure>(e => 1 == 1);
             ISpecification<Enclosure> minWidthInExpSpec     = new ExpressionSpecification<Enclosure>(e => 1 == 1);
@@ -103,11 +136,6 @@ namespace EnclosuresFinder.API.Controllers
             ISpecification<Enclosure> outdoorUseExpSpec     = new ExpressionSpecification<Enclosure>(e => 1 == 1);
             ISpecification<Enclosure> ulApprovalExpSpec     = new ExpressionSpecification<Enclosure>(e => 1 == 1);
             ISpecification<Enclosure> nema4XExpSpec         = new ExpressionSpecification<Enclosure>(e => 1 == 1);
-
-            if (!string.IsNullOrEmpty(filterObj.PartNumber))
-            {
-                partNumExpSpec = new ExpressionSpecification<Enclosure>(e => e.PartNumber.ToLower().Contains(filterObj.PartNumber.ToLower().Trim()));
-            }
 
             if (!string.IsNullOrEmpty(filterObj.DimensionUnit))
             {
@@ -204,8 +232,7 @@ namespace EnclosuresFinder.API.Controllers
                 nema4XExpSpec = new ExpressionSpecification<Enclosure>(e => e.Nema4X == filterObj.Nema4X);
             }
 
-            ISpecification<Enclosure> complexSpec = partNumExpSpec.And(
-                                                    minLengthInExpSpec.And(
+            ISpecification<Enclosure> complexSpec = minLengthInExpSpec.And(
                                                     maxLengthInExpSpec.And(
                                                     minWidthInExpSpec.And(
                                                     maxWidthInExpSpec.And(
@@ -222,13 +249,22 @@ namespace EnclosuresFinder.API.Controllers
                                                     seriesExpSpec.And(
                                                     outdoorUseExpSpec.And(
                                                     ulApprovalExpSpec.And(
-                                                    nema4XExpSpec))))))))))))))))));         
+                                                    nema4XExpSpec)))))))))))))))));
 
-                IEnumerable<Enclosure> _enclosures = _enclosureRepository.Find(complexSpec)
+            int currentPage = page;
+            int currentPageSize = pageSize;
+
+            var totalEnclosures = _enclosureRepository.Count(complexSpec);
+            var totalPages = (int)Math.Ceiling((double)totalEnclosures / pageSize);
+
+            if (currentPage > totalPages) currentPage = 1;
+
+            IEnumerable<Enclosure> _enclosures = _enclosureRepository.Find(complexSpec)
                             .OrderByDescending(s => s.Id)
                             .Skip((currentPage - 1) * currentPageSize)
                             .Take(currentPageSize)
                             .ToList();
+
             
             Response.AddPagination(page, pageSize, totalEnclosures, totalPages);
 

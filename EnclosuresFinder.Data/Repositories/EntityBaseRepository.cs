@@ -31,6 +31,11 @@ namespace EnclosuresFinder.Data.Repositories
         {
             return _context.Set<T>().Count();
         }
+
+        public virtual int Count(ISpecification<T> criteria)
+        {
+            return _context.Set<T>().Where(criteria.IsSatisfiedBy).AsEnumerable().Count();
+        }
         public virtual IEnumerable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _context.Set<T>();
@@ -66,9 +71,9 @@ namespace EnclosuresFinder.Data.Repositories
         {
             return _context.Set<T>().Where(predicate);
         }
-        public IEnumerable<TEntity> Find<TEntity>(ISpecification<TEntity> criteria) where TEntity : class
+        public IEnumerable<T> Find(ISpecification<T> criteria)
         {
-            return _context.Set<TEntity>().Where(criteria.IsSatisfiedBy).AsEnumerable();
+            return _context.Set<T>().Where(criteria.IsSatisfiedBy).AsEnumerable();
         }
         public virtual void Add(T entity)
         {
