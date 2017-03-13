@@ -35,28 +35,20 @@ namespace EnclosuresFinder.API.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired();
 
-                    b.Property<int>("IngressProtection")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1);
+                    b.Property<int>("IngressProtection");
 
                     b.Property<double>("LengthIn");
 
                     b.Property<double>("LengthMm");
 
-                    b.Property<int>("Material")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1);
+                    b.Property<int>("Material");
 
                     b.Property<string>("ModelUrl")
                         .IsRequired();
 
-                    b.Property<bool>("Nema4X")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("Nema4X");
 
-                    b.Property<bool>("OutdoorUse")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("OutdoorUse");
 
                     b.Property<string>("PartNumber")
                         .IsRequired()
@@ -65,17 +57,13 @@ namespace EnclosuresFinder.API.Migrations
                     b.Property<string>("PdfUrl")
                         .IsRequired();
 
-                    b.Property<int>("Series")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1);
+                    b.Property<int>("Series");
 
                     b.Property<string>("TypeNumber")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 50);
 
-                    b.Property<bool>("UlApproval")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
+                    b.Property<bool>("UlApproval");
 
                     b.Property<double>("WidthIn");
 

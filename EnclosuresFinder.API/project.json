@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "Enclosure",
 
   "dependencies": {
@@ -28,7 +28,8 @@
     "Newtonsoft.Json": "9.0.1",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
     "Microsoft.Extensions.FileProviders.Physical": "1.0.0",
-    "Microsoft.AspNetCore.Diagnostics": "1.0.0"
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0",
+    "Shaman.EPPlus": "1.0.1.1"
   },
 
   "tools": {
@@ -68,7 +69,8 @@
   "publishOptions": {
     "include": [
       "wwwroot",
-      "web.config"
+      "web.config",
+      "appsettings.json"
     ]
   },
 

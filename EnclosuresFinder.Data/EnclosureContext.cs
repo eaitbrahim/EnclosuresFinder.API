@@ -20,8 +20,7 @@ namespace EnclosuresFinder.Data
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
-
-
+            
             modelBuilder.Entity<Enclosure>()
                 .ToTable("Enclosure");
 
@@ -51,27 +50,27 @@ namespace EnclosuresFinder.Data
 
             modelBuilder.Entity<Enclosure>()
                 .Property(e => e.Material)
-                .HasDefaultValue(Material.Polycarbonate);
+                .IsRequired();
 
             modelBuilder.Entity<Enclosure>()
                 .Property(e => e.IngressProtection)
-                .HasDefaultValue(Ingress.IP65);
+                .IsRequired();
 
             modelBuilder.Entity<Enclosure>()
                 .Property(e => e.OutdoorUse)
-                .HasDefaultValue(true);
+                .IsRequired();
 
             modelBuilder.Entity<Enclosure>()
                 .Property(e => e.UlApproval)
-                .HasDefaultValue(true);
+                .IsRequired();
 
             modelBuilder.Entity<Enclosure>()
                 .Property(e => e.Nema4X)
-                .HasDefaultValue(true);
+                .IsRequired();
 
             modelBuilder.Entity<Enclosure>()
                 .Property(e => e.Series)
-                .HasDefaultValue(Series.TK);
+                .IsRequired();
 
             modelBuilder.Entity<Enclosure>()
                 .Property(e => e.TypeNumber)

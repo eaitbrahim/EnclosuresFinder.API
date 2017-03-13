@@ -1,4 +1,1 @@
-#:C:\Dev\Altech\Enclosures\EnclosuresFinder\EnclosuresFinder.API\EnclosuresFinder.API.xproj
-C:\Dev\Altech\Enclosures\EnclosuresFinder\EnclosuresFinder.API\EnclosuresFinder.API.xproj|C:\Dev\Altech\Enclosures\EnclosuresFinder\EnclosuresFinder.Data\EnclosuresFinder.Data.xproj
-C:\Dev\Altech\Enclosures\EnclosuresFinder\EnclosuresFinder.API\EnclosuresFinder.API.xproj|C:\Dev\Altech\Enclosures\EnclosuresFinder\EnclosuresFinder.Model\EnclosuresFinder.Model.xproj
-C:\Dev\Altech\Enclosures\EnclosuresFinder\EnclosuresFinder.Data\EnclosuresFinder.Data.xproj|C:\Dev\Altech\Enclosures\EnclosuresFinder\EnclosuresFinder.Model\EnclosuresFinder.Model.xproj
+#:C:\Dev\Altech\Enclosures\EnclosuresFinder\EnclosuresFinder.DBInit\EnclosuresFinder.DBInit.xproj
